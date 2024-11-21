@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Deviner le Nombre</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Jeu de Deviner le Nombre</h1>
+        <p>Devinez le nombre entre 1 et 100</p>
+        <input type="number" id="guessInput" placeholder="Entrez un nombre" />
+        <button id="guessButton">Deviner</button>
+        <p id="feedback"></p>
+        <p id="attempts">Nombre d'essais: 0</p>
+        <button id="resetButton" style="display: none;">Recommencer</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+<style>
+  /* style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.game-container {
+    text-align: center;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h1 {
+    color: #333;
+}
+
+#guessInput {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#guessButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#guessButton:hover {
+    background-color: #45a049;
+}
+
+#resetButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#resetButton:hover {
+    background-color: #e53935;
+}
+
+#feedback {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#attempts {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+</style>
+<script>
+  // script.js
+
+let randomNumber = Math.floor(Math.random() * 100) + 1; // Nombre aléatoire entre 1 et 100
+let attempts = 0; // Compteur des tentatives
+
+const guessButton = document.getElementById('guessButton');
+const guessInput = document.getElementById('guessInput');
+const feedback = document.getElementById('feedback');
+const attemptsText = document.getElementById('attempts');
+const resetButton = document.getElementById('resetButton');
+
+// Fonction pour gérer la tentative
+function checkGuess() {
+    const userGuess = parseInt(guessInput.value);
+    attempts++;
+
+    if (userGuess === randomNumber) {
+        feedback.textContent = `Félicitations! Vous avez deviné le nombre en ${attempts} essais.`;
+        feedback.style.color = 'green';
+        guessButton.disabled = true;
+        resetButton.style.display = 'inline-block';
+    } else if (userGuess < randomNumber) {
+        feedback.textContent = 'Trop bas! Essayez encore.';
+        feedback.style.color = 'red';
+    } else {
+        feedback.textContent = 'Trop haut! Essayez encore.';
+        feedback.style.color = 'red';
+    }
+
+    attemptsText.textContent = `Nombre d'essais: ${attempts}`;
+}
+
+// Fonction pour réinitialiser le jeu
+function resetGame() {
+    randomNumber = Math.floor(Math.random() * 100) + 1;
+    attempts = 0;
+    guessInput.value = '';
+    feedback.textContent = '';
+    attemptsText.textContent = `Nombre d'essais: 0`;
+    guessButton.disabled = false;
+    resetButton.style.display = 'none';
+}
+
+// Événements
+guessButton.addEventListener('click', checkGuess);
+resetButton.addEventListener('click', resetGame);
+
+</script>
+</html>
